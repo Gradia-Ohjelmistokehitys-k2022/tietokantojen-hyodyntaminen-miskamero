@@ -58,6 +58,22 @@ namespace Autokauppa.view
             dbHallinta.disconnectDatabase();
             Application.Exit();
         }
+        private void btnLisaa_Click(object sender, EventArgs e)
+        {
+            // allinta.saveAutoIntoDatabase(cbMerkki.Text, cbMalli.Text, cbVari.Text, cbPolttoaine.Text, tbHinta.Text, tbTilavuus.Text, tbMittarilukema.Text, dtpPaiva.Text);
+            // public bool saveAutoIntoDatabase(Auto newAuto)
+            dbHallinta.saveAutoIntoDatabase(new Auto
+            {
+                AutonMerkkiID = int.Parse(cbMerkki.Text),
+                AutonMalliID = int.Parse(cbMalli.Text),
+                VaritID = int.Parse(cbVari.Text),
+                PolttoaineID = int.Parse(cbPolttoaine.Text),
+                Hinta = decimal.Parse(tbHinta.Text),
+                Moottorin_tilavuus = decimal.Parse(tbTilavuus.Text),
+                Mittarilukema = int.Parse(tbMittarilukema.Text),
+                Rekisteri_paivamaara = DateTime.Parse(dtpPaiva.Text)
+            });
+        }
 
         private void tbId_TextChanged(object sender, EventArgs e)
         {
@@ -93,11 +109,6 @@ namespace Autokauppa.view
                 Auto auto = dbHallinta.GetAutoByID(nextID.Value);
                 if (auto != null)
                 {
-                    //tbHinta.Text = auto.Hinta.ToString();
-                    //tbRekisteriPaivamaara.Text = auto.Rekisteri_paivamaara.ToString("yyyy-MM-dd");
-                    //tbMoottorinTilavuus.Text = auto.Moottorin_tilavuus.ToString();
-                    //tbMittarilukema.Text = auto.Mittarilukema.ToString();
-
                     cbMerkki.Text = auto.AutonMerkkiID.ToString();
                     cbMalli.Text = auto.AutonMalliID.ToString();
                     cbVari.Text = auto.VaritID.ToString();
@@ -106,8 +117,6 @@ namespace Autokauppa.view
                     tbTilavuus.Text = auto.Moottorin_tilavuus.ToString();
                     tbMittarilukema.Text = auto.Mittarilukema.ToString();
                     dtpPaiva.Text = auto.Rekisteri_paivamaara.ToString("yyyy-MM-dd");
-
-                    // Set other textboxes as needed
                 }
                 else
                 {

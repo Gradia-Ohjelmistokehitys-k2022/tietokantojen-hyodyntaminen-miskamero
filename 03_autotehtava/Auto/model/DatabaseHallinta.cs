@@ -72,10 +72,49 @@ namespace Autokauppa.model
 
         public bool saveAutoIntoDatabase(Auto newAuto)
         {
-            bool palaute = false;
-            return palaute;
+            //dbHallinta.saveAutoIntoDatabase(new Auto
+            //{
+            //    AutonMerkkiID = int.Parse(cbMerkki.Text),
+            //    AutonMalliID = int.Parse(cbMalli.Text),
+            //    VaritID = int.Parse(cbVari.Text),
+            //    PolttoaineID = int.Parse(cbPolttoaine.Text),
+            //    Hinta = decimal.Parse(tbHinta.Text),
+            //    Moottorin_tilavuus = decimal.Parse(tbTilavuus.Text),
+            //    Mittarilukema = int.Parse(tbMittarilukema.Text),
+            //    Rekisteri_paivamaara = DateTime.Parse(dtpPaiva.Text)
+            //});
+            // let's create a new auto into the db using Auto.cs
+            try
+            {
+                if (dbYhteys.State == System.Data.ConnectionState.Open)
+                {
+                    string query = "INSERT INTO Auto (Hinta, Rekisteri_paivamaara, Moottorin_tilavuus, Mittarilukema, AutonMerkkiID, AutonMalliID, VaritID, PolttoaineID) " +
+                        "VALUES (@Hinta, @Rekisteri_paivamaara, @Moottorin_tilavuus, @Mittarilukema, @AutonMerkkiID, @AutonMalliID, @VaritID, @PolttoaineID)";
+                    SqlCommand command = new SqlCommand(query, dbYhteys);
+                    command.Parameters.AddWithValue("@Hinta", newAuto.Hinta);
+                    command.Parameters.AddWithValue("@Rekisteri_paivamaara", newAuto.Rekisteri_paivamaara);
+                    command.Parameters.AddWithValue("@Moottorin_tilavuus", newAuto.Moottorin_tilavuus);
+                    command.Parameters.AddWithValue("@Mittarilukema", newAuto.Mittarilukema);
+                    command.Parameters.AddWithValue("@AutonMerkkiID", newAuto.AutonMerkkiID);
+                    command.Parameters.AddWithValue("@AutonMalliID", newAuto.AutonMalliID);
+                    command.Parameters.AddWithValue("@VaritID", newAuto.VaritID);
+                    command.Parameters.AddWithValue("@PolttoaineID", newAuto.PolttoaineID);
 
-            
+                    command.ExecuteNonQuery();
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show("Database connection is not open.");
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error saving auto into database: " + e.Message);
+                return false;
+            }
+
         }
         public int? GetNextAvailableID(int currentID)
         {
