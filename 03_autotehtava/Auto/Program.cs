@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Autokauppa.view;
+using Autokauppa.model;
 
 namespace Autokauppa
 {
