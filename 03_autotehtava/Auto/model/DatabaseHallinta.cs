@@ -103,6 +103,32 @@ namespace Autokauppa.model
             }
         }
 
+        public int? GetPreviousAvailableID(int currentID)
+        {
+            try
+            {
+                if (dbYhteys.State == System.Data.ConnectionState.Open)
+                {
+                    string query = "SELECT TOP 1 ID FROM Auto WHERE ID < @currentID ORDER BY ID DESC";
+                    SqlCommand command = new SqlCommand(query, dbYhteys);
+                    command.Parameters.AddWithValue("@currentID", currentID);
+
+                    object result = command.ExecuteScalar();
+                    return result != null ? (int?)result : null;
+                }
+                else
+                {
+                    MessageBox.Show("Database connection is not open.");
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error fetching the previous available ID: " + e.Message);
+                return null;
+            }
+        }
+
         public Auto GetAutoByID(int id)
         {
             try

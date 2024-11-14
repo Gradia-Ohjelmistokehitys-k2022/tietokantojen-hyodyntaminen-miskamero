@@ -119,5 +119,40 @@ namespace Autokauppa.view
                 MessageBox.Show("No higher ID available.");
             }
         }
+
+        private void btnEdellinen_Click(object sender, EventArgs e)
+        {
+            int currentID = int.Parse(tbId.Text);
+
+            // Find the previous available ID
+            int? previousID = dbHallinta.GetPreviousAvailableID(currentID);
+            if (previousID.HasValue)
+            {
+                tbId.Text = previousID.ToString();
+
+                // Get the Auto object with the previous ID and display it
+                Auto auto = dbHallinta.GetAutoByID(previousID.Value);
+                if (auto != null)
+                {
+                    cbMerkki.Text = auto.AutonMerkkiID.ToString();
+                    cbMalli.Text = auto.AutonMalliID.ToString();
+                    cbVari.Text = auto.VaritID.ToString();
+                    cbPolttoaine.Text = auto.PolttoaineID.ToString();
+                    tbHinta.Text = auto.Hinta.ToString();
+                    tbTilavuus.Text = auto.Moottorin_tilavuus.ToString();
+                    tbMittarilukema.Text = auto.Mittarilukema.ToString();
+                    dtpPaiva.Text = auto.Rekisteri_paivamaara.ToString("yyyy-MM-dd");
+                }
+                else
+                {
+                    MessageBox.Show("Auto with the specified ID not found.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("No lower ID available.");
+            }
+        }
+
     }
 }

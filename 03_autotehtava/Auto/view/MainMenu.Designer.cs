@@ -270,6 +270,7 @@
             btnEdellinen.TabIndex = 19;
             btnEdellinen.Text = "Edellinen";
             btnEdellinen.UseVisualStyleBackColor = true;
+            btnEdellinen.Click += btnEdellinen_Click;
             // 
             // menuStrip1
             // 
