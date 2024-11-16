@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using Autokauppa.model;
+using Autokauppa.controller;
 
 
 namespace Autokauppa.view
@@ -32,11 +33,31 @@ namespace Autokauppa.view
             if (isConnected)
             {
                 MessageBox.Show("Yhteys tietokantaan toimii");
+                // Fill the comboboxes with data
+                FillComboboxes();
             }
             else
             {
                 MessageBox.Show("Yhteys tietokantaan ei toimi");
             }
+        }
+
+        private void FillComboboxes()
+        {
+            // Fill the comboboxes with data
+            cbMerkki.DataSource = dbHallinta.getAllAutoMakersFromDatabase();
+            cbMalli.DataSource = dbHallinta.getAutoModelsByMakerId(1);
+            cbMerkki.SelectedIndexChanged += new EventHandler(cbMerkki_SelectedIndexChanged);
+        }
+
+        private void cbMerkki_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // get the current cbMerkki selected string value, query that from the table AutonMerkki and find the ID
+            // then use that ID to get the models from the table AutonMalli
+            // all in this method
+            string selectedMerkki = cbMerkki.Text;
+            int makerID = dbHallinta.getAutoMakerID(selectedMerkki);
+            cbMalli.DataSource = dbHallinta.getAutoModelsByMakerId(makerID);
         }
 
         private void testaaTietokantaaToolStripMenuItem_Click(object sender, EventArgs e)

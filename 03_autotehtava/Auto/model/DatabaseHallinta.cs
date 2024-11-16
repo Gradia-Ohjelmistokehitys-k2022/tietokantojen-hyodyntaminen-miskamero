@@ -207,17 +207,78 @@ namespace Autokauppa.model
         }
         public List<object> getAllAutoMakersFromDatabase()
         {
-            List<object> palaute=null;
-            return palaute;
-
+            List<string> makers = new List<string>();
+            try
+            {
+                if (dbYhteys.State == System.Data.ConnectionState.Open)
+                {
+                    string query = "SELECT Merkki FROM AutonMerkki";
+                    SqlCommand command = new SqlCommand(query, dbYhteys);
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        makers.Add(reader["Merkki"].ToString());
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error fetching auto makers: " + e.Message);
+            }
+            return makers.Cast<object>().ToList();
         }
 
-        public List<object> getAutoModelsByMakerId(int makerId) 
-             
+        public List<string> getAutoModelsByMakerId(int makerId)
         {
-            List<object> palaute = null;
-            return palaute;
+            // Filter to only list the current maker's models
+            List<string> models = new List<string>();
+            try
+            {
+                if (dbYhteys.State == System.Data.ConnectionState.Open)
+                {
+                    string query = "SELECT Auton_mallin_nimi FROM AutonMallit WHERE AutonMerkkiID = @makerId";
+                    SqlCommand command = new SqlCommand(query, dbYhteys);
+                    command.Parameters.AddWithValue("@makerId", makerId);
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        // Add the model name to the list
+                        models.Add(reader["Auton_mallin_nimi"].ToString());
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error fetching auto models: " + e.Message);
+            }
+            return models;
         }
 
+        public int getAutoMakerID(string maker)
+        {
+            try
+            {
+                if (dbYhteys.State == System.Data.ConnectionState.Open)
+                {
+                    string query = "SELECT ID FROM AutonMerkki WHERE Merkki = @maker";
+                    SqlCommand command = new SqlCommand(query, dbYhteys);
+                    command.Parameters.AddWithValue("@maker", maker);
+                    object result = command.ExecuteScalar();
+                    return result != null ? (int)result : -1;
+                }
+                else
+                {
+                    MessageBox.Show("Database connection is not open.");
+                    return -1;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error fetching auto maker ID: " + e.Message);
+                return -1;
+            }
+        }
     }
 }

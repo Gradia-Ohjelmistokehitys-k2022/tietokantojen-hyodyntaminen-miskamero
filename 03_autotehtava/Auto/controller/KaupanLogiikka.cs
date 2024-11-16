@@ -31,7 +31,7 @@ namespace Autokauppa.controller
             return dbModel.getAllAutoMakersFromDatabase();
         }
 
-        public List<object> getAutoModels(int makerId) {
+        public List<string> getAutoModels(int makerId) {
 
             return dbModel.getAutoModelsByMakerId(makerId);
         }

@@ -248,6 +248,7 @@
             cbMerkki.Name = "cbMerkki";
             cbMerkki.Size = new System.Drawing.Size(106, 23);
             cbMerkki.TabIndex = 17;
+            cbMerkki.SelectedIndexChanged += cbMerkki_SelectedIndexChanged;
             // 
             // btnEdellinen
             // 
@@ -319,7 +320,7 @@
             Controls.Add(btnSeuraava);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
-            Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            Margin = new System.Windows.Forms.Padding(4);
             Name = "MainMenu";
             Text = "MainMenu";
             Load += MainMenu_Load;
