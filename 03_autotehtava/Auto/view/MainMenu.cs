@@ -54,7 +54,6 @@ namespace Autokauppa.view
         {
             // get the current cbMerkki selected string value, query that from the table AutonMerkki and find the ID
             // then use that ID to get the models from the table AutonMalli
-            // all in this method
             string selectedMerkki = cbMerkki.Text;
             int makerID = dbHallinta.getAutoMakerID(selectedMerkki);
             cbMalli.DataSource = dbHallinta.getAutoModelsByMakerId(makerID);
