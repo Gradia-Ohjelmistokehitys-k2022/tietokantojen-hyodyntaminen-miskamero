@@ -179,6 +179,46 @@ namespace Autokauppa.view
             }
         }
 
+        private void btnSearchByBrand_Click(object sender, EventArgs e)
+        {
+            string brand = tbMerkki.Text.Trim();
+            if (!string.IsNullOrEmpty(brand))
+            {
+                DataTable results = dbHallinta.SearchCarsByBrand(brand);
+                dgvCars.DataSource = results;
 
+                if (results.Rows.Count == 0)
+                {
+                    MessageBox.Show("No cars found for the specified brand.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please enter a valid brand.");
+            }
+        }
+
+        private void btnSearchByPrice_Click(object sender, EventArgs e)
+        {
+            if (decimal.TryParse(numMaxPrice.Text, out decimal maxPrice) && maxPrice > 0)
+            {
+                DataTable results = dbHallinta.SearchCarsByPrice(maxPrice);
+                dgvCars.DataSource = results;
+
+                if (results.Rows.Count == 0)
+                {
+                    MessageBox.Show("No cars found under the specified price.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please enter a valid price.");
+            }
+        }
+
+        private void gbAuto_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
 }

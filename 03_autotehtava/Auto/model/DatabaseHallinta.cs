@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
 using System.Windows.Forms;
 
 
@@ -460,5 +461,61 @@ namespace Autokauppa.model
                 return "";
             }
         }
+
+        public DataTable SearchCarsByBrand(string brand)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                if (dbYhteys.State == ConnectionState.Open)
+                {
+                    string query = "SELECT * FROM Auto WHERE AutonMerkkiID IN (SELECT ID FROM AutonMerkki WHERE Merkki = @brand)";
+                    SqlCommand command = new SqlCommand(query, dbYhteys);
+                    command.Parameters.AddWithValue("@brand", brand);
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(command);
+                    adapter.Fill(dt);
+                }
+                else
+                {
+                    MessageBox.Show("Database connection is not open.");
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error fetching cars by brand: " + e.Message);
+            }
+            return dt;
+        }
+        public DataTable SearchCarsByPrice(decimal maxPrice)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                if (dbYhteys.State == ConnectionState.Open)
+                {
+                    string query = @"
+                SELECT TOP 20 * 
+                FROM Auto 
+                WHERE Hinta <= @maxPrice 
+                ORDER BY Hinta DESC, ID DESC";
+                    SqlCommand command = new SqlCommand(query, dbYhteys);
+                    command.Parameters.AddWithValue("@maxPrice", maxPrice);
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(command);
+                    adapter.Fill(dt);
+                }
+                else
+                {
+                    MessageBox.Show("Database connection is not open.");
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error fetching cars by price: " + e.Message);
+            }
+            return dt;
+        }
+
     }
 }
