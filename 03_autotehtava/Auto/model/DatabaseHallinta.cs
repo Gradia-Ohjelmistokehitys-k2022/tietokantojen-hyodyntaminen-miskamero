@@ -329,5 +329,106 @@ namespace Autokauppa.model
                 return -1;
             }
         }
+
+        // getAutoMakerNameFromID
+        public string getAutoMakerNameFromID(int makerID)
+        {
+            try
+            {
+                if (dbYhteys.State == System.Data.ConnectionState.Open)
+                {
+                    string query = "SELECT Merkki FROM AutonMerkki WHERE ID = @makerID";
+                    SqlCommand command = new SqlCommand(query, dbYhteys);
+                    command.Parameters.AddWithValue("@makerID", makerID);
+                    object result = command.ExecuteScalar();
+                    return result != null ? result.ToString() : "";
+                }
+                else
+                {
+                    MessageBox.Show("Database connection is not open.");
+                    return "";
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error fetching auto maker name: " + e.Message);
+                return "";
+            }
+        }
+
+        public string getAutoModelNameFromID(int modelID)
+        {
+            try
+            {
+                if (dbYhteys.State == System.Data.ConnectionState.Open)
+                {
+                    string query = "SELECT Auton_mallin_nimi FROM AutonMallit WHERE ID = @modelID";
+                    SqlCommand command = new SqlCommand(query, dbYhteys);
+                    command.Parameters.AddWithValue("@modelID", modelID);
+                    object result = command.ExecuteScalar();
+                    return result != null ? result.ToString() : "";
+                }
+                else
+                {
+                    MessageBox.Show("Database connection is not open.");
+                    return "";
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error fetching auto model name: " + e.Message);
+                return "";
+            }
+        }
+
+        public string getColorNameFromID(int colorID)
+        {
+            try
+            {
+                if (dbYhteys.State == System.Data.ConnectionState.Open)
+                {
+                    string query = "SELECT Varin_nimi FROM Varit WHERE ID = @colorID";
+                    SqlCommand command = new SqlCommand(query, dbYhteys);
+                    command.Parameters.AddWithValue("@colorID", colorID);
+                    object result = command.ExecuteScalar();
+                    return result != null ? result.ToString() : "";
+                }
+                else
+                {
+                    MessageBox.Show("Database connection is not open.");
+                    return "";
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error fetching color name: " + e.Message);
+                return "";
+            }
+        }
+
+        public string getFuelNameFromID(int fuelID)
+        {
+            try
+            {
+                if (dbYhteys.State == System.Data.ConnectionState.Open)
+                {
+                    string query = "SELECT Polttoaineen_nimi FROM Polttoaine WHERE ID = @fuelID";
+                    SqlCommand command = new SqlCommand(query, dbYhteys);
+                    command.Parameters.AddWithValue("@fuelID", fuelID);
+                    object result = command.ExecuteScalar();
+                    return result != null ? result.ToString() : "";
+                }
+                else
+                {
+                    MessageBox.Show("Database connection is not open.");
+                    return "";
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error fetching fuel name: " + e.Message);
+                return "";
+            }
+        }
     }
 }

@@ -113,10 +113,10 @@ namespace Autokauppa.view
                 Auto auto = dbHallinta.GetAutoByID(nextID.Value);
                 if (auto != null)
                 {
-                    cbMerkki.Text = auto.AutonMerkkiID.ToString();
-                    cbMalli.Text = auto.AutonMalliID.ToString();
-                    cbVari.Text = auto.VaritID.ToString();
-                    cbPolttoaine.Text = auto.PolttoaineID.ToString();
+                    cbMerkki.Text = dbHallinta.getAutoMakerNameFromID(auto.AutonMerkkiID);
+                    cbMalli.Text = dbHallinta.getAutoModelNameFromID(auto.AutonMalliID);
+                    cbVari.Text = dbHallinta.getColorNameFromID(auto.VaritID);
+                    cbPolttoaine.Text = dbHallinta.getFuelNameFromID(auto.PolttoaineID);
                     tbHinta.Text = auto.Hinta.ToString();
                     tbTilavuus.Text = auto.Moottorin_tilavuus.ToString();
                     tbMittarilukema.Text = auto.Mittarilukema.ToString();
@@ -147,10 +147,10 @@ namespace Autokauppa.view
                 Auto auto = dbHallinta.GetAutoByID(previousID.Value);
                 if (auto != null)
                 {
-                    cbMerkki.Text = auto.AutonMerkkiID.ToString();
-                    cbMalli.Text = auto.AutonMalliID.ToString();
-                    cbVari.Text = auto.VaritID.ToString();
-                    cbPolttoaine.Text = auto.PolttoaineID.ToString();
+                    cbMerkki.Text = dbHallinta.getAutoMakerNameFromID(auto.AutonMerkkiID);
+                    cbMalli.Text = dbHallinta.getAutoModelNameFromID(auto.AutonMalliID);
+                    cbVari.Text = dbHallinta.getColorNameFromID(auto.VaritID);
+                    cbPolttoaine.Text = dbHallinta.getFuelNameFromID(auto.PolttoaineID);
                     tbHinta.Text = auto.Hinta.ToString();
                     tbTilavuus.Text = auto.Moottorin_tilavuus.ToString();
                     tbMittarilukema.Text = auto.Mittarilukema.ToString();
