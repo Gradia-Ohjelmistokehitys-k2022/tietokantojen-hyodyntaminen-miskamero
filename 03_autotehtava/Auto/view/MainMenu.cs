@@ -108,7 +108,7 @@ namespace Autokauppa.view
             // we dont use Auto class because it's broken and unnecessary
             // Auto auto = new Auto(0, makerID, modelID, colorID, fuelID, price, engineVolume, mileage, date);
             // we push the values to the database
-            dbHallinta.AddNewAuto(makerID, modelID, colorID, fuelID, price, engineVolume, mileage, date);
+            dbHallinta.saveAutoIntoDatabase(makerID, modelID, colorID, fuelID, price, engineVolume, mileage, date);
         }
 
 
