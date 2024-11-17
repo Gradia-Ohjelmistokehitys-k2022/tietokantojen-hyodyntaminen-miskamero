@@ -17,5 +17,18 @@ namespace Autokauppa.model
         public int AutonMalliID { get; set; }
         public int VaritID { get; set; }
         public int PolttoaineID { get; set; }
+
+        public Auto()
+        {
+            ID = 0;
+            Hinta = 0;
+            Rekisteri_paivamaara = DateTime.Now;
+            Moottorin_tilavuus = 0;
+            Mittarilukema = 0;
+            AutonMerkkiID = 0;
+            AutonMalliID = 0;
+            VaritID = 0;
+            PolttoaineID = 0;
+        }
     }
 }

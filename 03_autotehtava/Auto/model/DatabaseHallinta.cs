@@ -71,23 +71,26 @@ namespace Autokauppa.model
             dbYhteys.Close();
         }
 
-        public bool saveAutoIntoDatabase(Auto newAuto)
+        // dbHallinta.saveAutoIntoDatabase(makerID, modelID, colorID, fuelID, price, engineVolume, mileage, date);
+        public bool saveAutoIntoDatabase(int makerID, int modelID, int colorID, int fuelID, decimal price, decimal engineVolume, int mileage, DateTime date)
         {
             try
             {
                 if (dbYhteys.State == System.Data.ConnectionState.Open)
                 {
-                    string query = "INSERT INTO Auto (Hinta, Rekisteri_paivamaara, Moottorin_tilavuus, Mittarilukema, AutonMerkkiID, AutonMalliID, VaritID, PolttoaineID) " +
-                        "VALUES (@Hinta, @Rekisteri_paivamaara, @Moottorin_tilavuus, @Mittarilukema, @AutonMerkkiID, @AutonMalliID, @VaritID, @PolttoaineID)";
+                    string query = @"
+                        INSERT INTO Auto (Hinta, Rekisteri_paivamaara, Moottorin_tilavuus, Mittarilukema, AutonMerkkiID, AutonMalliID, VaritID, PolttoaineID)
+                        VALUES (@price, @date, @engineVolume, @mileage, @makerID, @modelID, @colorID, @fuelID)";
+
                     SqlCommand command = new SqlCommand(query, dbYhteys);
-                    command.Parameters.AddWithValue("@Hinta", newAuto.Hinta);
-                    command.Parameters.AddWithValue("@Rekisteri_paivamaara", newAuto.Rekisteri_paivamaara);
-                    command.Parameters.AddWithValue("@Moottorin_tilavuus", newAuto.Moottorin_tilavuus);
-                    command.Parameters.AddWithValue("@Mittarilukema", newAuto.Mittarilukema);
-                    command.Parameters.AddWithValue("@AutonMerkkiID", newAuto.AutonMerkkiID);
-                    command.Parameters.AddWithValue("@AutonMalliID", newAuto.AutonMalliID);
-                    command.Parameters.AddWithValue("@VaritID", newAuto.VaritID);
-                    command.Parameters.AddWithValue("@PolttoaineID", newAuto.PolttoaineID);
+                    command.Parameters.AddWithValue("@price", price);
+                    command.Parameters.AddWithValue("@date", date);
+                    command.Parameters.AddWithValue("@engineVolume", engineVolume);
+                    command.Parameters.AddWithValue("@mileage", mileage);
+                    command.Parameters.AddWithValue("@makerID", makerID);
+                    command.Parameters.AddWithValue("@modelID", modelID);
+                    command.Parameters.AddWithValue("@colorID", colorID);
+                    command.Parameters.AddWithValue("@fuelID", fuelID);
 
                     command.ExecuteNonQuery();
                     return true;
@@ -100,10 +103,9 @@ namespace Autokauppa.model
             }
             catch (Exception e)
             {
-                MessageBox.Show("Error saving auto into database: " + e.Message);
+                MessageBox.Show("Error saving the car to the database: " + e.Message);
                 return false;
             }
-
         }
         public int? GetNextLowestByPrice(decimal currentPrice, int currentID)
         {
@@ -357,6 +359,81 @@ namespace Autokauppa.model
             catch (Exception e)
             {
                 MessageBox.Show("Error fetching auto maker ID: " + e.Message);
+                return -1;
+            }
+        }
+
+        public int getAutoModelID(string model)
+        {
+            try
+            {
+                if (dbYhteys.State == System.Data.ConnectionState.Open)
+                {
+                    string query = "SELECT ID FROM AutonMallit WHERE Auton_mallin_nimi = @model";
+                    SqlCommand command = new SqlCommand(query, dbYhteys);
+                    command.Parameters.AddWithValue("@model", model);
+                    object result = command.ExecuteScalar();
+                    return result != null ? (int)result : -1;
+                }
+                else
+                {
+                    MessageBox.Show("Database connection is not open.");
+                    return -1;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error fetching auto model ID: " + e.Message);
+                return -1;
+            }
+        }
+
+        public int getColorID(string color)
+        {
+            try
+            {
+                if (dbYhteys.State == System.Data.ConnectionState.Open)
+                {
+                    string query = "SELECT ID FROM Varit WHERE Varin_nimi = @color";
+                    SqlCommand command = new SqlCommand(query, dbYhteys);
+                    command.Parameters.AddWithValue("@color", color);
+                    object result = command.ExecuteScalar();
+                    return result != null ? (int)result : -1;
+                }
+                else
+                {
+                    MessageBox.Show("Database connection is not open.");
+                    return -1;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error fetching color ID: " + e.Message);
+                return -1;
+            }
+        }
+
+        public int getFuelID(string fuel)
+        {
+            try
+            {
+                if (dbYhteys.State == System.Data.ConnectionState.Open)
+                {
+                    string query = "SELECT ID FROM Polttoaine WHERE Polttoaineen_nimi = @fuel";
+                    SqlCommand command = new SqlCommand(query, dbYhteys);
+                    command.Parameters.AddWithValue("@fuel", fuel);
+                    object result = command.ExecuteScalar();
+                    return result != null ? (int)result : -1;
+                }
+                else
+                {
+                    MessageBox.Show("Database connection is not open.");
+                    return -1;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error fetching fuel ID: " + e.Message);
                 return -1;
             }
         }

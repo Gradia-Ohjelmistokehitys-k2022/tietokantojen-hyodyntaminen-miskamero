@@ -82,19 +82,33 @@ namespace Autokauppa.view
         }
         private void btnLisaa_Click(object sender, EventArgs e)
         {
-            // allinta.saveAutoIntoDatabase(cbMerkki.Text, cbMalli.Text, cbVari.Text, cbPolttoaine.Text, tbHinta.Text, tbTilavuus.Text, tbMittarilukema.Text, dtpPaiva.Text);
-            // public bool saveAutoIntoDatabase(Auto newAuto)
-            dbHallinta.saveAutoIntoDatabase(new Auto
-            {
-                AutonMerkkiID = int.Parse(cbMerkki.Text),
-                AutonMalliID = int.Parse(cbMalli.Text),
-                VaritID = int.Parse(cbVari.Text),
-                PolttoaineID = int.Parse(cbPolttoaine.Text),
-                Hinta = decimal.Parse(tbHinta.Text),
-                Moottorin_tilavuus = decimal.Parse(tbTilavuus.Text),
-                Mittarilukema = int.Parse(tbMittarilukema.Text),
-                Rekisteri_paivamaara = DateTime.Parse(dtpPaiva.Text)
-            });
+            /// this is the hardest part of the program
+            /// first we need to get the selected values from the comboboxes
+            /// then turn maker, model, color and fuel into their respective IDs
+            /// then we need to parse the price, engine volume and mileage from the textboxes
+            /// then we need to parse the date from the datetimepicker
+            /// then we need to create a new Auto object with the parsed values
+            /// finally we need to call the AddNewAuto method from the DatabaseHallinta class
+            // get the selected values from the comboboxes
+            string selectedMaker = cbMerkki.Text;
+            string selectedModel = cbMalli.Text;
+            string selectedColor = cbVari.Text;
+            string selectedFuel = cbPolttoaine.Text;
+            decimal price = decimal.Parse(tbHinta.Text);
+            decimal engineVolume = decimal.Parse(tbTilavuus.Text);
+            int mileage = int.Parse(tbMittarilukema.Text);
+            DateTime date = dtpPaiva.Value;
+
+            // turn maker, model, color and fuel into their respective IDs
+            int makerID = dbHallinta.getAutoMakerID(selectedMaker);
+            int modelID = dbHallinta.getAutoModelID(selectedModel);
+            int colorID = dbHallinta.getColorID(selectedColor);
+            int fuelID = dbHallinta.getFuelID(selectedFuel);
+
+            // we dont use Auto class because it's broken and unnecessary
+            // Auto auto = new Auto(0, makerID, modelID, colorID, fuelID, price, engineVolume, mileage, date);
+            // we push the values to the database
+            dbHallinta.AddNewAuto(makerID, modelID, colorID, fuelID, price, engineVolume, mileage, date);
         }
 
 
