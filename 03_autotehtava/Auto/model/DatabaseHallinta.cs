@@ -72,18 +72,6 @@ namespace Autokauppa.model
 
         public bool saveAutoIntoDatabase(Auto newAuto)
         {
-            //dbHallinta.saveAutoIntoDatabase(new Auto
-            //{
-            //    AutonMerkkiID = int.Parse(cbMerkki.Text),
-            //    AutonMalliID = int.Parse(cbMalli.Text),
-            //    VaritID = int.Parse(cbVari.Text),
-            //    PolttoaineID = int.Parse(cbPolttoaine.Text),
-            //    Hinta = decimal.Parse(tbHinta.Text),
-            //    Moottorin_tilavuus = decimal.Parse(tbTilavuus.Text),
-            //    Mittarilukema = int.Parse(tbMittarilukema.Text),
-            //    Rekisteri_paivamaara = DateTime.Parse(dtpPaiva.Text)
-            //});
-            // let's create a new auto into the db using Auto.cs
             try
             {
                 if (dbYhteys.State == System.Data.ConnectionState.Open)
@@ -116,17 +104,38 @@ namespace Autokauppa.model
             }
 
         }
-        public int? GetNextAvailableID(int currentID)
+        public int? GetNextLowestByPrice(decimal currentPrice, int currentID)
         {
             try
             {
                 if (dbYhteys.State == System.Data.ConnectionState.Open)
                 {
-                    string query = "SELECT TOP 1 ID FROM Auto WHERE ID > @currentID ORDER BY ID ASC";
+                    // Query for the next car (higher price or same price, higher ID)
+                    string query = @"
+                        SELECT TOP 1 ID 
+                        FROM Auto 
+                        WHERE (Hinta > @currentPrice) 
+                           OR (Hinta = @currentPrice AND ID > @currentID)
+                        ORDER BY Hinta ASC, ID ASC";
+
                     SqlCommand command = new SqlCommand(query, dbYhteys);
+                    command.Parameters.AddWithValue("@currentPrice", currentPrice);
                     command.Parameters.AddWithValue("@currentID", currentID);
 
                     object result = command.ExecuteScalar();
+
+                    // If no next car is found, wrap to the lowest-priced car
+                    if (result == null)
+                    {
+                        query = @"
+                            SELECT TOP 1 ID 
+                            FROM Auto 
+                            ORDER BY Hinta ASC, ID ASC";
+
+                        command = new SqlCommand(query, dbYhteys);
+                        result = command.ExecuteScalar();
+                    }
+
                     return result != null ? (int?)result : null;
                 }
                 else
@@ -137,22 +146,43 @@ namespace Autokauppa.model
             }
             catch (Exception e)
             {
-                MessageBox.Show("Error fetching the next available ID: " + e.Message);
+                MessageBox.Show("Error fetching the next available Car: " + e.Message);
                 return null;
             }
         }
 
-        public int? GetPreviousAvailableID(int currentID)
+        public int? GetPreviousLowestByPrice(decimal currentPrice, int currentID)
         {
             try
             {
                 if (dbYhteys.State == System.Data.ConnectionState.Open)
                 {
-                    string query = "SELECT TOP 1 ID FROM Auto WHERE ID < @currentID ORDER BY ID DESC";
+                    // Query for the previous car (lower price or same price, lower ID)
+                    string query = @"
+                        SELECT TOP 1 ID 
+                        FROM Auto 
+                        WHERE (Hinta < @currentPrice) 
+                           OR (Hinta = @currentPrice AND ID < @currentID)
+                        ORDER BY Hinta DESC, ID DESC";
+
                     SqlCommand command = new SqlCommand(query, dbYhteys);
+                    command.Parameters.AddWithValue("@currentPrice", currentPrice);
                     command.Parameters.AddWithValue("@currentID", currentID);
 
                     object result = command.ExecuteScalar();
+
+                    // If no previous car is found, wrap to the highest-priced car
+                    if (result == null)
+                    {
+                        query = @"
+                            SELECT TOP 1 ID 
+                            FROM Auto 
+                            ORDER BY Hinta DESC, ID DESC";
+
+                        command = new SqlCommand(query, dbYhteys);
+                        result = command.ExecuteScalar();
+                    }
+
                     return result != null ? (int?)result : null;
                 }
                 else
@@ -163,7 +193,7 @@ namespace Autokauppa.model
             }
             catch (Exception e)
             {
-                MessageBox.Show("Error fetching the previous available ID: " + e.Message);
+                MessageBox.Show("Error fetching the previous available Car: " + e.Message);
                 return null;
             }
         }

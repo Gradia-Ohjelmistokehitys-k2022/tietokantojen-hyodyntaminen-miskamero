@@ -101,71 +101,84 @@ namespace Autokauppa.view
 
         private void btnSeuraava_Click(object sender, EventArgs e)
         {
-            int currentID = int.Parse(tbId.Text);
-
-            // Find the next available ID
-            int? nextID = dbHallinta.GetNextAvailableID(currentID);
-            if (nextID.HasValue)
+            try
             {
-                tbId.Text = nextID.ToString();
+                decimal currentPrice = decimal.Parse(tbHinta.Text);
+                int currentID = int.Parse(tbId.Text);
 
-                // Get the Auto object with the new ID and display it
-                Auto auto = dbHallinta.GetAutoByID(nextID.Value);
-                if (auto != null)
+                int? nextCarID = dbHallinta.GetNextLowestByPrice(currentPrice, currentID);
+                if (nextCarID.HasValue)
                 {
-                    cbMerkki.Text = dbHallinta.getAutoMakerNameFromID(auto.AutonMerkkiID);
-                    cbMalli.Text = dbHallinta.getAutoModelNameFromID(auto.AutonMalliID);
-                    cbVari.Text = dbHallinta.getColorNameFromID(auto.VaritID);
-                    cbPolttoaine.Text = dbHallinta.getFuelNameFromID(auto.PolttoaineID);
-                    tbHinta.Text = auto.Hinta.ToString();
-                    tbTilavuus.Text = auto.Moottorin_tilavuus.ToString();
-                    tbMittarilukema.Text = auto.Mittarilukema.ToString();
-                    dtpPaiva.Text = auto.Rekisteri_paivamaara.ToString("yyyy-MM-dd");
+                    tbId.Text = nextCarID.ToString();
+
+                    Auto auto = dbHallinta.GetAutoByID(nextCarID.Value);
+                    if (auto != null)
+                    {
+                        cbMerkki.Text = dbHallinta.getAutoMakerNameFromID(auto.AutonMerkkiID);
+                        cbMalli.Text = dbHallinta.getAutoModelNameFromID(auto.AutonMalliID);
+                        cbVari.Text = dbHallinta.getColorNameFromID(auto.VaritID);
+                        cbPolttoaine.Text = dbHallinta.getFuelNameFromID(auto.PolttoaineID);
+                        tbHinta.Text = auto.Hinta.ToString();
+                        tbTilavuus.Text = auto.Moottorin_tilavuus.ToString();
+                        tbMittarilukema.Text = auto.Mittarilukema.ToString();
+                        dtpPaiva.Text = auto.Rekisteri_paivamaara.ToString("yyyy-MM-dd");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Auto with the specified ID not found.");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Auto with the specified ID not found.");
+                    MessageBox.Show("No higher ID available.");
                 }
             }
-            else
+            catch (FormatException)
             {
-                MessageBox.Show("No higher ID available.");
+                MessageBox.Show("Invalid price format.");
             }
         }
 
         private void btnEdellinen_Click(object sender, EventArgs e)
         {
-            int currentID = int.Parse(tbId.Text);
-
-            // Find the previous available ID
-            int? previousID = dbHallinta.GetPreviousAvailableID(currentID);
-            if (previousID.HasValue)
+            try
             {
-                tbId.Text = previousID.ToString();
+                decimal currentPrice = decimal.Parse(tbHinta.Text);
+                int currentID = int.Parse(tbId.Text);
 
-                // Get the Auto object with the previous ID and display it
-                Auto auto = dbHallinta.GetAutoByID(previousID.Value);
-                if (auto != null)
+                int? previousCarID = dbHallinta.GetPreviousLowestByPrice(currentPrice, currentID);
+                if (previousCarID.HasValue)
                 {
-                    cbMerkki.Text = dbHallinta.getAutoMakerNameFromID(auto.AutonMerkkiID);
-                    cbMalli.Text = dbHallinta.getAutoModelNameFromID(auto.AutonMalliID);
-                    cbVari.Text = dbHallinta.getColorNameFromID(auto.VaritID);
-                    cbPolttoaine.Text = dbHallinta.getFuelNameFromID(auto.PolttoaineID);
-                    tbHinta.Text = auto.Hinta.ToString();
-                    tbTilavuus.Text = auto.Moottorin_tilavuus.ToString();
-                    tbMittarilukema.Text = auto.Mittarilukema.ToString();
-                    dtpPaiva.Text = auto.Rekisteri_paivamaara.ToString("yyyy-MM-dd");
+                    tbId.Text = previousCarID.ToString();
+
+                    Auto auto = dbHallinta.GetAutoByID(previousCarID.Value);
+                    if (auto != null)
+                    {
+                        cbMerkki.Text = dbHallinta.getAutoMakerNameFromID(auto.AutonMerkkiID);
+                        cbMalli.Text = dbHallinta.getAutoModelNameFromID(auto.AutonMalliID);
+                        cbVari.Text = dbHallinta.getColorNameFromID(auto.VaritID);
+                        cbPolttoaine.Text = dbHallinta.getFuelNameFromID(auto.PolttoaineID);
+                        tbHinta.Text = auto.Hinta.ToString();
+                        tbTilavuus.Text = auto.Moottorin_tilavuus.ToString();
+                        tbMittarilukema.Text = auto.Mittarilukema.ToString();
+                        dtpPaiva.Text = auto.Rekisteri_paivamaara.ToString("yyyy-MM-dd");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Auto with the specified ID not found.");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Auto with the specified ID not found.");
+                    MessageBox.Show("No previous car available.");
                 }
             }
-            else
+            catch (FormatException)
             {
-                MessageBox.Show("No lower ID available.");
+                MessageBox.Show("Invalid price or ID format.");
             }
         }
+
 
     }
 }
