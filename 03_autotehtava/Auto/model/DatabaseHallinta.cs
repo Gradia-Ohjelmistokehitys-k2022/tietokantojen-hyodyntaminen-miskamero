@@ -168,43 +168,6 @@ namespace Autokauppa.model
             }
         }
 
-        public Auto GetAutoByID(int id)
-        {
-            try
-            {
-                if (dbYhteys.State == System.Data.ConnectionState.Open)
-                {
-                    string query = "SELECT * FROM Auto WHERE ID = @id";
-                    SqlCommand command = new SqlCommand(query, dbYhteys);
-                    command.Parameters.AddWithValue("@id", id);
-
-                    SqlDataReader reader = command.ExecuteReader();
-                    if (reader.Read())
-                    {
-                        Auto auto = new Auto
-                        {
-                            ID = (int)reader["ID"],
-                            Hinta = (decimal)reader["Hinta"],
-                            Rekisteri_paivamaara = (DateTime)reader["Rekisteri_paivamaara"],
-                            Moottorin_tilavuus = (decimal)reader["Moottorin_tilavuus"],
-                            Mittarilukema = (int)reader["Mittarilukema"],
-                            AutonMerkkiID = (int)reader["AutonMerkkiID"],
-                            AutonMalliID = (int)reader["AutonMalliID"],
-                            VaritID = (int)reader["VaritID"],
-                            PolttoaineID = (int)reader["PolttoaineID"]
-                        };
-                        reader.Close();
-                        return auto;
-                    }
-                    reader.Close();
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Error fetching auto details: " + e.Message);
-            }
-            return null;
-        }
         public List<object> getAllAutoMakersFromDatabase()
         {
             List<string> makers = new List<string>();
@@ -254,6 +217,92 @@ namespace Autokauppa.model
                 MessageBox.Show("Error fetching auto models: " + e.Message);
             }
             return models;
+        }
+
+        public List<object> getAllColorsFromDatabase()
+        {
+            List<string> colors = new List<string>();
+            try
+            {
+                if (dbYhteys.State == System.Data.ConnectionState.Open)
+                {
+                    string query = "SELECT Varin_nimi FROM Varit";
+                    SqlCommand command = new SqlCommand(query, dbYhteys);
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        colors.Add(reader["Varin_nimi"].ToString());
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error fetching colors: " + e.Message);
+            }
+            return colors.Cast<object>().ToList();
+        }
+
+        public List<object> getAllFuelsFromDatabase()
+        {
+            List<string> fuels = new List<string>();
+            try
+            {
+                if (dbYhteys.State == System.Data.ConnectionState.Open)
+                {
+                    string query = "SELECT Polttoaineen_nimi FROM Polttoaine";
+                    SqlCommand command = new SqlCommand(query, dbYhteys);
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        fuels.Add(reader["Polttoaineen_nimi"].ToString());
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error fetching fuels: " + e.Message);
+            }
+            return fuels.Cast<object>().ToList();
+        }
+
+        public Auto GetAutoByID(int id)
+        {
+            try
+            {
+                if (dbYhteys.State == System.Data.ConnectionState.Open)
+                {
+                    string query = "SELECT * FROM Auto WHERE ID = @id";
+                    SqlCommand command = new SqlCommand(query, dbYhteys);
+                    command.Parameters.AddWithValue("@id", id);
+
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        Auto auto = new Auto
+                        {
+                            ID = (int)reader["ID"],
+                            Hinta = (decimal)reader["Hinta"],
+                            Rekisteri_paivamaara = (DateTime)reader["Rekisteri_paivamaara"],
+                            Moottorin_tilavuus = (decimal)reader["Moottorin_tilavuus"],
+                            Mittarilukema = (int)reader["Mittarilukema"],
+                            AutonMerkkiID = (int)reader["AutonMerkkiID"],
+                            AutonMalliID = (int)reader["AutonMalliID"],
+                            VaritID = (int)reader["VaritID"],
+                            PolttoaineID = (int)reader["PolttoaineID"]
+                        };
+                        reader.Close();
+                        return auto;
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error fetching auto details: " + e.Message);
+            }
+            return null;
         }
 
         public int getAutoMakerID(string maker)

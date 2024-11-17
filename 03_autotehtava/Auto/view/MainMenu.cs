@@ -34,7 +34,7 @@ namespace Autokauppa.view
             {
                 MessageBox.Show("Yhteys tietokantaan toimii");
                 // Fill the comboboxes with data
-                FillComboboxes();
+                FillComboboxSelections();
             }
             else
             {
@@ -42,12 +42,14 @@ namespace Autokauppa.view
             }
         }
 
-        private void FillComboboxes()
+        private void FillComboboxSelections()
         {
             // Fill the comboboxes with data
             cbMerkki.DataSource = dbHallinta.getAllAutoMakersFromDatabase();
             cbMalli.DataSource = dbHallinta.getAutoModelsByMakerId(1);
             cbMerkki.SelectedIndexChanged += new EventHandler(cbMerkki_SelectedIndexChanged);
+            cbVari.DataSource = dbHallinta.getAllColorsFromDatabase();
+            cbPolttoaine.DataSource = dbHallinta.getAllFuelsFromDatabase();
         }
 
         private void cbMerkki_SelectedIndexChanged(object sender, EventArgs e)
@@ -95,25 +97,7 @@ namespace Autokauppa.view
             });
         }
 
-        private void tbId_TextChanged(object sender, EventArgs e)
-        {
 
-        }
-
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tbId_TextChanged_1(object sender, EventArgs e)
-        {
-
-        }
 
         private void btnSeuraava_Click(object sender, EventArgs e)
         {

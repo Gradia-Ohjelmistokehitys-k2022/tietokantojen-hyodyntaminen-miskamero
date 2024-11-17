@@ -140,7 +140,6 @@
             label5.Size = new System.Drawing.Size(36, 15);
             label5.TabIndex = 30;
             label5.Text = "Hinta";
-            label5.Click += label5_Click;
             // 
             // label4
             // 
@@ -230,7 +229,6 @@
             tbId.Size = new System.Drawing.Size(102, 23);
             tbId.TabIndex = 19;
             tbId.Text = "1";
-            tbId.TextChanged += tbId_TextChanged_1;
             // 
             // label1
             // 
