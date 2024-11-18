@@ -7,6 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.Windows.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Diagnostics;
+using System.Drawing;
 
 
 
@@ -593,6 +596,40 @@ namespace Autokauppa.model
             }
             return dt;
         }
+        public void UpdateAuto(int CurrentID, int makerID, int modelID, int colorID, int fuelID, decimal price, decimal engineVolume, int mileage, DateTime date)
+        {
+            // Update the car with the given ID
+            try
+            {
+                if (dbYhteys.State == ConnectionState.Open)
+                {
+                    string query = @"
+                        UPDATE Auto 
+                        SET Hinta = @price, Rekisteri_paivamaara = @date, Moottorin_tilavuus = @engineVolume, Mittarilukema = @mileage, AutonMerkkiID = @makerID, AutonMalliID = @modelID, VaritID = @colorID, PolttoaineID = @fuelID
+                        WHERE ID = @CurrentID";
 
+                    SqlCommand command = new SqlCommand(query, dbYhteys);
+                    command.Parameters.AddWithValue("@price", price);
+                    command.Parameters.AddWithValue("@date", date);
+                    command.Parameters.AddWithValue("@engineVolume", engineVolume);
+                    command.Parameters.AddWithValue("@mileage", mileage);
+                    command.Parameters.AddWithValue("@makerID", makerID);
+                    command.Parameters.AddWithValue("@modelID", modelID);
+                    command.Parameters.AddWithValue("@colorID", colorID);
+                    command.Parameters.AddWithValue("@fuelID", fuelID);
+                    command.Parameters.AddWithValue("@CurrentID", CurrentID);
+
+                    command.ExecuteNonQuery();
+                }
+                else
+                {
+                    MessageBox.Show("Database connection is not open.");
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error updating the car: " + e.Message);
+            }
+        }
     }
 }

@@ -234,5 +234,25 @@ namespace Autokauppa.view
         {
 
         }
+
+        private void tallennaNappi_Click(object sender, EventArgs e)
+        {
+            int CurrentID = int.Parse(tbId.Text);
+            string selectedMaker = cbMerkki.Text;
+            string selectedModel = cbMalli.Text;
+            string selectedColor = cbVari.Text;
+            string selectedFuel = cbPolttoaine.Text;
+            decimal price = decimal.Parse(tbHinta.Text);
+            decimal engineVolume = decimal.Parse(tbTilavuus.Text);
+            int mileage = int.Parse(tbMittarilukema.Text);
+            DateTime date = dtpPaiva.Value;
+
+            int makerID = dbHallinta.getAutoMakerID(selectedMaker);
+            int modelID = dbHallinta.getAutoModelID(selectedModel);
+            int colorID = dbHallinta.getColorID(selectedColor);
+            int fuelID = dbHallinta.getFuelID(selectedFuel);
+
+            dbHallinta.UpdateAuto(CurrentID, makerID, modelID, colorID, fuelID, price, engineVolume, mileage, date);
+        }
     }
 }

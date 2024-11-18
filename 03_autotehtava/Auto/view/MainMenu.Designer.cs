@@ -61,6 +61,8 @@
             exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             testaaTietokantaaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            tallennaNappi = new System.Windows.Forms.Button();
+            poistaNappi = new System.Windows.Forms.Button();
             gbAuto.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numMaxPrice).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvCars).BeginInit();
@@ -69,9 +71,10 @@
             // 
             // btnSeuraava
             // 
-            btnSeuraava.Location = new System.Drawing.Point(710, 187);
+            btnSeuraava.Location = new System.Drawing.Point(659, 254);
+            btnSeuraava.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             btnSeuraava.Name = "btnSeuraava";
-            btnSeuraava.Size = new System.Drawing.Size(78, 31);
+            btnSeuraava.Size = new System.Drawing.Size(89, 41);
             btnSeuraava.TabIndex = 17;
             btnSeuraava.Text = "Seuraava";
             btnSeuraava.UseVisualStyleBackColor = true;
@@ -79,6 +82,8 @@
             // 
             // gbAuto
             // 
+            gbAuto.Controls.Add(poistaNappi);
+            gbAuto.Controls.Add(tallennaNappi);
             gbAuto.Controls.Add(btnLisaa);
             gbAuto.Controls.Add(btnEdellinen);
             gbAuto.Controls.Add(btnSeuraava);
@@ -100,9 +105,11 @@
             gbAuto.Controls.Add(tbId);
             gbAuto.Controls.Add(label1);
             gbAuto.Controls.Add(cbMerkki);
-            gbAuto.Location = new System.Drawing.Point(10, 34);
+            gbAuto.Location = new System.Drawing.Point(11, 45);
+            gbAuto.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             gbAuto.Name = "gbAuto";
-            gbAuto.Size = new System.Drawing.Size(948, 251);
+            gbAuto.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            gbAuto.Size = new System.Drawing.Size(1083, 335);
             gbAuto.TabIndex = 18;
             gbAuto.TabStop = false;
             gbAuto.Text = "Auton tiedot";
@@ -110,9 +117,10 @@
             // 
             // btnLisaa
             // 
-            btnLisaa.Location = new System.Drawing.Point(813, 187);
+            btnLisaa.Location = new System.Drawing.Point(777, 254);
+            btnLisaa.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             btnLisaa.Name = "btnLisaa";
-            btnLisaa.Size = new System.Drawing.Size(78, 31);
+            btnLisaa.Size = new System.Drawing.Size(89, 41);
             btnLisaa.TabIndex = 21;
             btnLisaa.Text = "Lisää";
             btnLisaa.UseVisualStyleBackColor = true;
@@ -120,9 +128,10 @@
             // 
             // btnEdellinen
             // 
-            btnEdellinen.Location = new System.Drawing.Point(609, 187);
+            btnEdellinen.Location = new System.Drawing.Point(544, 254);
+            btnEdellinen.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             btnEdellinen.Name = "btnEdellinen";
-            btnEdellinen.Size = new System.Drawing.Size(81, 31);
+            btnEdellinen.Size = new System.Drawing.Size(93, 41);
             btnEdellinen.TabIndex = 19;
             btnEdellinen.Text = "Edellinen";
             btnEdellinen.UseVisualStyleBackColor = true;
@@ -131,175 +140,187 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new System.Drawing.Point(833, 109);
+            label9.Location = new System.Drawing.Point(952, 145);
             label9.Name = "label9";
-            label9.Size = new System.Drawing.Size(18, 15);
+            label9.Size = new System.Drawing.Size(24, 20);
             label9.TabIndex = 34;
             label9.Text = "ID";
             // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new System.Drawing.Point(718, 109);
+            label8.Location = new System.Drawing.Point(821, 145);
             label8.Name = "label8";
-            label8.Size = new System.Drawing.Size(76, 15);
+            label8.Size = new System.Drawing.Size(95, 20);
             label8.TabIndex = 33;
             label8.Text = "RekisteriPVM";
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new System.Drawing.Point(606, 109);
+            label7.Location = new System.Drawing.Point(693, 145);
             label7.Name = "label7";
-            label7.Size = new System.Drawing.Size(81, 15);
+            label7.Size = new System.Drawing.Size(101, 20);
             label7.TabIndex = 32;
             label7.Text = "Mittarilukema";
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new System.Drawing.Point(829, 62);
+            label6.Location = new System.Drawing.Point(947, 83);
             label6.Name = "label6";
-            label6.Size = new System.Drawing.Size(50, 15);
+            label6.Size = new System.Drawing.Size(62, 20);
             label6.TabIndex = 31;
             label6.Text = "Tilavuus";
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new System.Drawing.Point(718, 62);
+            label5.Location = new System.Drawing.Point(821, 83);
             label5.Name = "label5";
-            label5.Size = new System.Drawing.Size(36, 15);
+            label5.Size = new System.Drawing.Size(45, 20);
             label5.TabIndex = 30;
             label5.Text = "Hinta";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new System.Drawing.Point(606, 62);
+            label4.Location = new System.Drawing.Point(693, 83);
             label4.Name = "label4";
-            label4.Size = new System.Drawing.Size(61, 15);
+            label4.Size = new System.Drawing.Size(76, 20);
             label4.TabIndex = 29;
             label4.Text = "Polttoaine";
             // 
             // cbPolttoaine
             // 
             cbPolttoaine.FormattingEnabled = true;
-            cbPolttoaine.Location = new System.Drawing.Point(606, 83);
+            cbPolttoaine.Location = new System.Drawing.Point(693, 111);
+            cbPolttoaine.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             cbPolttoaine.Name = "cbPolttoaine";
-            cbPolttoaine.Size = new System.Drawing.Size(106, 23);
+            cbPolttoaine.Size = new System.Drawing.Size(121, 28);
             cbPolttoaine.TabIndex = 28;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new System.Drawing.Point(829, 19);
+            label3.Location = new System.Drawing.Point(947, 25);
             label3.Name = "label3";
-            label3.Size = new System.Drawing.Size(26, 15);
+            label3.Size = new System.Drawing.Size(34, 20);
             label3.TabIndex = 27;
             label3.Text = "Väri";
             // 
             // cbVari
             // 
             cbVari.FormattingEnabled = true;
-            cbVari.Location = new System.Drawing.Point(829, 37);
+            cbVari.Location = new System.Drawing.Point(947, 49);
+            cbVari.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             cbVari.Name = "cbVari";
-            cbVari.Size = new System.Drawing.Size(106, 23);
+            cbVari.Size = new System.Drawing.Size(121, 28);
             cbVari.TabIndex = 26;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new System.Drawing.Point(718, 19);
+            label2.Location = new System.Drawing.Point(821, 25);
             label2.Name = "label2";
-            label2.Size = new System.Drawing.Size(33, 15);
+            label2.Size = new System.Drawing.Size(42, 20);
             label2.TabIndex = 25;
             label2.Text = "Malli";
             // 
             // cbMalli
             // 
             cbMalli.FormattingEnabled = true;
-            cbMalli.Location = new System.Drawing.Point(718, 37);
+            cbMalli.Location = new System.Drawing.Point(821, 49);
+            cbMalli.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             cbMalli.Name = "cbMalli";
-            cbMalli.Size = new System.Drawing.Size(106, 23);
+            cbMalli.Size = new System.Drawing.Size(121, 28);
             cbMalli.TabIndex = 24;
             // 
             // dtpPaiva
             // 
             dtpPaiva.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            dtpPaiva.Location = new System.Drawing.Point(722, 127);
+            dtpPaiva.Location = new System.Drawing.Point(825, 169);
+            dtpPaiva.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             dtpPaiva.Name = "dtpPaiva";
-            dtpPaiva.Size = new System.Drawing.Size(102, 23);
+            dtpPaiva.Size = new System.Drawing.Size(116, 27);
             dtpPaiva.TabIndex = 23;
             // 
             // tbMittarilukema
             // 
-            tbMittarilukema.Location = new System.Drawing.Point(606, 127);
+            tbMittarilukema.Location = new System.Drawing.Point(693, 169);
+            tbMittarilukema.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             tbMittarilukema.Name = "tbMittarilukema";
-            tbMittarilukema.Size = new System.Drawing.Size(102, 23);
+            tbMittarilukema.Size = new System.Drawing.Size(116, 27);
             tbMittarilukema.TabIndex = 22;
             // 
             // tbTilavuus
             // 
-            tbTilavuus.Location = new System.Drawing.Point(829, 84);
+            tbTilavuus.Location = new System.Drawing.Point(947, 112);
+            tbTilavuus.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             tbTilavuus.Name = "tbTilavuus";
-            tbTilavuus.Size = new System.Drawing.Size(102, 23);
+            tbTilavuus.Size = new System.Drawing.Size(116, 27);
             tbTilavuus.TabIndex = 21;
             // 
             // tbHinta
             // 
-            tbHinta.Location = new System.Drawing.Point(722, 84);
+            tbHinta.Location = new System.Drawing.Point(825, 112);
+            tbHinta.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             tbHinta.Name = "tbHinta";
-            tbHinta.Size = new System.Drawing.Size(102, 23);
+            tbHinta.Size = new System.Drawing.Size(116, 27);
             tbHinta.TabIndex = 20;
             // 
             // tbId
             // 
-            tbId.Location = new System.Drawing.Point(833, 127);
+            tbId.Location = new System.Drawing.Point(952, 169);
+            tbId.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             tbId.Name = "tbId";
             tbId.ReadOnly = true;
-            tbId.Size = new System.Drawing.Size(102, 23);
+            tbId.Size = new System.Drawing.Size(116, 27);
             tbId.TabIndex = 19;
             tbId.Text = "1";
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(606, 19);
+            label1.Location = new System.Drawing.Point(693, 25);
             label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(69, 15);
+            label1.Size = new System.Drawing.Size(85, 20);
             label1.TabIndex = 18;
             label1.Text = "Automerkki";
             // 
             // cbMerkki
             // 
             cbMerkki.FormattingEnabled = true;
-            cbMerkki.Location = new System.Drawing.Point(606, 37);
+            cbMerkki.Location = new System.Drawing.Point(693, 49);
+            cbMerkki.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             cbMerkki.Name = "cbMerkki";
-            cbMerkki.Size = new System.Drawing.Size(106, 23);
+            cbMerkki.Size = new System.Drawing.Size(121, 28);
             cbMerkki.TabIndex = 17;
             cbMerkki.SelectedIndexChanged += cbMerkki_SelectedIndexChanged;
             // 
             // numMaxPrice
             // 
-            numMaxPrice.Location = new System.Drawing.Point(141, 503);
+            numMaxPrice.Location = new System.Drawing.Point(161, 671);
+            numMaxPrice.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             numMaxPrice.Maximum = new decimal(new int[] { 16777215, 0, 0, 0 });
             numMaxPrice.Name = "numMaxPrice";
-            numMaxPrice.Size = new System.Drawing.Size(100, 23);
+            numMaxPrice.Size = new System.Drawing.Size(114, 27);
             numMaxPrice.TabIndex = 38;
             // 
             // tbMerkki
             // 
-            tbMerkki.Location = new System.Drawing.Point(141, 475);
+            tbMerkki.Location = new System.Drawing.Point(161, 633);
+            tbMerkki.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             tbMerkki.Name = "tbMerkki";
-            tbMerkki.Size = new System.Drawing.Size(100, 23);
+            tbMerkki.Size = new System.Drawing.Size(114, 27);
             tbMerkki.TabIndex = 37;
             // 
             // btnSearchByPrice
             // 
-            btnSearchByPrice.Location = new System.Drawing.Point(12, 503);
+            btnSearchByPrice.Location = new System.Drawing.Point(14, 671);
+            btnSearchByPrice.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             btnSearchByPrice.Name = "btnSearchByPrice";
-            btnSearchByPrice.Size = new System.Drawing.Size(123, 23);
+            btnSearchByPrice.Size = new System.Drawing.Size(141, 31);
             btnSearchByPrice.TabIndex = 36;
             btnSearchByPrice.Text = "Hae Maks. Hinnalla";
             btnSearchByPrice.UseVisualStyleBackColor = true;
@@ -307,9 +328,10 @@
             // 
             // btnSearchByBrand
             // 
-            btnSearchByBrand.Location = new System.Drawing.Point(12, 474);
+            btnSearchByBrand.Location = new System.Drawing.Point(14, 632);
+            btnSearchByBrand.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             btnSearchByBrand.Name = "btnSearchByBrand";
-            btnSearchByBrand.Size = new System.Drawing.Size(123, 23);
+            btnSearchByBrand.Size = new System.Drawing.Size(141, 31);
             btnSearchByBrand.TabIndex = 35;
             btnSearchByBrand.Text = "Hae Merkillä";
             btnSearchByBrand.UseVisualStyleBackColor = true;
@@ -329,11 +351,13 @@
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             dgvCars.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvCars.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCars.Location = new System.Drawing.Point(12, 291);
+            dgvCars.Location = new System.Drawing.Point(14, 388);
+            dgvCars.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             dgvCars.Name = "dgvCars";
             dgvCars.ReadOnly = true;
+            dgvCars.RowHeadersWidth = 51;
             dgvCars.RowTemplate.Height = 25;
-            dgvCars.Size = new System.Drawing.Size(946, 159);
+            dgvCars.Size = new System.Drawing.Size(1081, 212);
             dgvCars.TabIndex = 22;
             // 
             // menuStrip1
@@ -342,8 +366,8 @@
             menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { exitToolStripMenuItem, aboutToolStripMenuItem });
             menuStrip1.Location = new System.Drawing.Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            menuStrip1.Size = new System.Drawing.Size(970, 24);
+            menuStrip1.Padding = new System.Windows.Forms.Padding(6, 3, 0, 3);
+            menuStrip1.Size = new System.Drawing.Size(1109, 30);
             menuStrip1.TabIndex = 20;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -351,13 +375,13 @@
             // 
             exitToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { exitToolStripMenuItem1 });
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
+            exitToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
             exitToolStripMenuItem.Text = "Tiedosto";
             // 
             // exitToolStripMenuItem1
             // 
             exitToolStripMenuItem1.Name = "exitToolStripMenuItem1";
-            exitToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
+            exitToolStripMenuItem1.Size = new System.Drawing.Size(131, 26);
             exitToolStripMenuItem1.Text = "Poistu";
             exitToolStripMenuItem1.Click += exitToolStripMenuItem1_Click;
             // 
@@ -365,21 +389,42 @@
             // 
             aboutToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { testaaTietokantaaToolStripMenuItem });
             aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            aboutToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
+            aboutToolStripMenuItem.Size = new System.Drawing.Size(74, 24);
             aboutToolStripMenuItem.Text = "Muuta...";
             // 
             // testaaTietokantaaToolStripMenuItem
             // 
             testaaTietokantaaToolStripMenuItem.Name = "testaaTietokantaaToolStripMenuItem";
-            testaaTietokantaaToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            testaaTietokantaaToolStripMenuItem.Size = new System.Drawing.Size(213, 26);
             testaaTietokantaaToolStripMenuItem.Text = "Testaa tietokantaa";
             testaaTietokantaaToolStripMenuItem.Click += testaaTietokantaaToolStripMenuItem_Click;
             // 
+            // tallennaNappi
+            // 
+            tallennaNappi.Location = new System.Drawing.Point(887, 254);
+            tallennaNappi.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            tallennaNappi.Name = "tallennaNappi";
+            tallennaNappi.Size = new System.Drawing.Size(89, 41);
+            tallennaNappi.TabIndex = 35;
+            tallennaNappi.Text = "Tallenna";
+            tallennaNappi.UseVisualStyleBackColor = true;
+            tallennaNappi.Click += tallennaNappi_Click;
+            // 
+            // poistaNappi
+            // 
+            poistaNappi.Location = new System.Drawing.Point(988, 254);
+            poistaNappi.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            poistaNappi.Name = "poistaNappi";
+            poistaNappi.Size = new System.Drawing.Size(89, 41);
+            poistaNappi.TabIndex = 36;
+            poistaNappi.Text = "Poista";
+            poistaNappi.UseVisualStyleBackColor = true;
+            // 
             // MainMenu
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(970, 550);
+            ClientSize = new System.Drawing.Size(1109, 733);
             Controls.Add(gbAuto);
             Controls.Add(dgvCars);
             Controls.Add(numMaxPrice);
@@ -388,7 +433,7 @@
             Controls.Add(btnSearchByPrice);
             Controls.Add(btnSearchByBrand);
             MainMenuStrip = menuStrip1;
-            Margin = new System.Windows.Forms.Padding(4);
+            Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             Name = "MainMenu";
             Text = "MainMenu";
             Load += MainMenu_Load;
@@ -435,5 +480,7 @@
         private System.Windows.Forms.TextBox tbMerkki;
         private System.Windows.Forms.Button btnSearchByPrice;
         private System.Windows.Forms.Button btnSearchByBrand;
+        private System.Windows.Forms.Button tallennaNappi;
+        private System.Windows.Forms.Button poistaNappi;
     }
 }

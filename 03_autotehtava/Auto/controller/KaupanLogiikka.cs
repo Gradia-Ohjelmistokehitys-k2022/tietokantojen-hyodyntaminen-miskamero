@@ -20,11 +20,11 @@ namespace Autokauppa.controller
             return doesItWork;
         }
 
-        public bool saveAuto(model.Auto newAuto) 
-        {
-            bool didItGoIntoDatabase = dbModel.saveAutoIntoDatabase(newAuto);
-            return didItGoIntoDatabase;
-        }
+        //public bool saveAuto(model.Auto newAuto) 
+        //{
+        //    //bool didItGoIntoDatabase = dbModel.saveAutoIntoDatabase(newAuto);
+        //    return didItGoIntoDatabase;
+        //}
 
         public List<object> getAllAutoMakers() {
 
