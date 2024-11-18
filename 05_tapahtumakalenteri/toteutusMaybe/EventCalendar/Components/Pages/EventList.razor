@@ -1,0 +1,44 @@
+﻿@page "/eventlist"
+@inject EventDbContext DbContext
+@using EventCalendar.Data
+@using Microsoft.EntityFrameworkCore
+
+<h3>Event List</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Location</th>
+            <th>Category</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var eventItem in events)
+        {
+            <tr>
+                <td>@eventItem.Title</td>
+                <td>@eventItem.StartDate.ToShortDateString()</td>
+                <td>@eventItem.EndDate.ToShortDateString()</td>
+                <td>@eventItem.Location</td>
+                <td>@eventItem.Category</td>
+                <td>
+                    <button class="btn btn-primary">Edit</button>
+                    <button class="btn btn-danger">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private List<Event> events = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        events = await DbContext.Events.ToListAsync();
+    }
+}
