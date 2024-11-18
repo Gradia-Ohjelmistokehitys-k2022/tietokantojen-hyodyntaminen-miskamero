@@ -31,6 +31,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             btnSeuraava = new System.Windows.Forms.Button();
             gbAuto = new System.Windows.Forms.GroupBox();
+            poistaNappi = new System.Windows.Forms.Button();
+            tallennaNappi = new System.Windows.Forms.Button();
             btnLisaa = new System.Windows.Forms.Button();
             btnEdellinen = new System.Windows.Forms.Button();
             label9 = new System.Windows.Forms.Label();
@@ -61,8 +63,6 @@
             exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             testaaTietokantaaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            tallennaNappi = new System.Windows.Forms.Button();
-            poistaNappi = new System.Windows.Forms.Button();
             gbAuto.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numMaxPrice).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvCars).BeginInit();
@@ -114,6 +114,28 @@
             gbAuto.TabStop = false;
             gbAuto.Text = "Auton tiedot";
             gbAuto.Enter += gbAuto_Enter;
+            // 
+            // poistaNappi
+            // 
+            poistaNappi.Location = new System.Drawing.Point(988, 254);
+            poistaNappi.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            poistaNappi.Name = "poistaNappi";
+            poistaNappi.Size = new System.Drawing.Size(89, 41);
+            poistaNappi.TabIndex = 36;
+            poistaNappi.Text = "Poista";
+            poistaNappi.UseVisualStyleBackColor = true;
+            poistaNappi.Click += poistaNappi_Click;
+            // 
+            // tallennaNappi
+            // 
+            tallennaNappi.Location = new System.Drawing.Point(887, 254);
+            tallennaNappi.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            tallennaNappi.Name = "tallennaNappi";
+            tallennaNappi.Size = new System.Drawing.Size(89, 41);
+            tallennaNappi.TabIndex = 35;
+            tallennaNappi.Text = "Tallenna";
+            tallennaNappi.UseVisualStyleBackColor = true;
+            tallennaNappi.Click += tallennaNappi_Click;
             // 
             // btnLisaa
             // 
@@ -266,8 +288,10 @@
             tbHinta.Location = new System.Drawing.Point(825, 112);
             tbHinta.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             tbHinta.Name = "tbHinta";
+            tbHinta.PlaceholderText = "1";
             tbHinta.Size = new System.Drawing.Size(116, 27);
             tbHinta.TabIndex = 20;
+            tbHinta.Text = "1";
             // 
             // tbId
             // 
@@ -399,27 +423,6 @@
             testaaTietokantaaToolStripMenuItem.Text = "Testaa tietokantaa";
             testaaTietokantaaToolStripMenuItem.Click += testaaTietokantaaToolStripMenuItem_Click;
             // 
-            // tallennaNappi
-            // 
-            tallennaNappi.Location = new System.Drawing.Point(887, 254);
-            tallennaNappi.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            tallennaNappi.Name = "tallennaNappi";
-            tallennaNappi.Size = new System.Drawing.Size(89, 41);
-            tallennaNappi.TabIndex = 35;
-            tallennaNappi.Text = "Tallenna";
-            tallennaNappi.UseVisualStyleBackColor = true;
-            tallennaNappi.Click += tallennaNappi_Click;
-            // 
-            // poistaNappi
-            // 
-            poistaNappi.Location = new System.Drawing.Point(988, 254);
-            poistaNappi.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            poistaNappi.Name = "poistaNappi";
-            poistaNappi.Size = new System.Drawing.Size(89, 41);
-            poistaNappi.TabIndex = 36;
-            poistaNappi.Text = "Poista";
-            poistaNappi.UseVisualStyleBackColor = true;
-            // 
             // MainMenu
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -433,7 +436,7 @@
             Controls.Add(btnSearchByPrice);
             Controls.Add(btnSearchByBrand);
             MainMenuStrip = menuStrip1;
-            Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            Margin = new System.Windows.Forms.Padding(5);
             Name = "MainMenu";
             Text = "MainMenu";
             Load += MainMenu_Load;

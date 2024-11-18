@@ -22,31 +22,31 @@ namespace Autokauppa.model
 
         public DatabaseHallinta()
         {
-           yhteysTiedot =
-                "Server = (localdb)\\MSSQLLocalDB;" +
-                "Database = Autokauppa;" +
-                "Trusted_Connection = True;";
+            yhteysTiedot =
+                 "Server = (localdb)\\MSSQLLocalDB;" +
+                 "Database = Autokauppa;" +
+                 "Trusted_Connection = True;";
             dbYhteys = new SqlConnection();
         }
 
         public bool connectDatabase()
         {
             dbYhteys.ConnectionString = yhteysTiedot;
-            
+
             try
-            { 
+            {
                 dbYhteys.Open();
                 MessageBox.Show("Yhteys avattu");
                 return true;
             }
-            catch(Exception e)
-            { 
+            catch (Exception e)
+            {
                 Console.WriteLine("Virheilmoitukset:" + e);
                 dbYhteys.Close();
                 return false;
 
             }
-            
+
         }
 
         public bool testDatabaseConnection()
@@ -74,7 +74,8 @@ namespace Autokauppa.model
             dbYhteys.Close();
         }
 
-        // dbHallinta.saveAutoIntoDatabase(makerID, modelID, colorID, fuelID, price, engineVolume, mileage, date);
+        // saveAutoIntoDatabase(makerID, modelID, colorID, fuelID, price, engineVolume, mileage, date);
+        // saveAutoIntoDatabase(makerID, modelID, colorID, fuelID, price, engineVolume, mileage, date)
         public bool saveAutoIntoDatabase(int makerID, int modelID, int colorID, int fuelID, decimal price, decimal engineVolume, int mileage, DateTime date)
         {
             try
@@ -82,7 +83,7 @@ namespace Autokauppa.model
                 if (dbYhteys.State == System.Data.ConnectionState.Open)
                 {
                     string query = @"
-                        INSERT INTO Auto (Hinta, Rekisteri_paivamaara, Moottorin_tilavuus, Mittarilukema, AutonMerkkiID, AutonMalliID, VaritID, PolttoaineID)
+                        INSERT INTO auto (Hinta, Rekisteri_paivamaara, Moottorin_tilavuus, Mittarilukema, AutonMerkkiID, AutonMalliID, VaritID, PolttoaineID)
                         VALUES (@price, @date, @engineVolume, @mileage, @makerID, @modelID, @colorID, @fuelID)";
 
                     SqlCommand command = new SqlCommand(query, dbYhteys);
@@ -96,6 +97,7 @@ namespace Autokauppa.model
                     command.Parameters.AddWithValue("@fuelID", fuelID);
 
                     command.ExecuteNonQuery();
+                    MessageBox.Show("Auto tallennettu tietokantaan");
                     return true;
                 }
                 else
@@ -629,6 +631,28 @@ namespace Autokauppa.model
             catch (Exception e)
             {
                 MessageBox.Show("Error updating the car: " + e.Message);
+            }
+        }
+
+        public void DeleteAuto(int id)
+        {
+            try
+            {
+                if (dbYhteys.State == ConnectionState.Open)
+                {
+                    string query = "DELETE FROM Auto WHERE ID = @id";
+                    SqlCommand command = new SqlCommand(query, dbYhteys);
+                    command.Parameters.AddWithValue("@id", id);
+                    command.ExecuteNonQuery();
+                }
+                else
+                {
+                    MessageBox.Show("Database connection is not open.");
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error deleting the car: " + e.Message);
             }
         }
     }

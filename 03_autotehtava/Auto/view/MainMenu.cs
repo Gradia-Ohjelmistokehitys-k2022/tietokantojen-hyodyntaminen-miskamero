@@ -82,14 +82,7 @@ namespace Autokauppa.view
         }
         private void btnLisaa_Click(object sender, EventArgs e)
         {
-            /// this is the hardest part of the program
-            /// first we need to get the selected values from the comboboxes
-            /// then turn maker, model, color and fuel into their respective IDs
-            /// then we need to parse the price, engine volume and mileage from the textboxes
-            /// then we need to parse the date from the datetimepicker
-            /// then we need to create a new Auto object with the parsed values
-            /// finally we need to call the AddNewAuto method from the DatabaseHallinta class
-            // get the selected values from the comboboxes
+            string RegexPattern = @"^\d,\d$";
             string selectedMaker = cbMerkki.Text;
             string selectedModel = cbMalli.Text;
             string selectedColor = cbVari.Text;
@@ -104,6 +97,13 @@ namespace Autokauppa.view
             int modelID = dbHallinta.getAutoModelID(selectedModel);
             int colorID = dbHallinta.getColorID(selectedColor);
             int fuelID = dbHallinta.getFuelID(selectedFuel);
+
+            // check if tilavuus is valid using the regex
+            if (!System.Text.RegularExpressions.Regex.IsMatch(tbTilavuus.Text, RegexPattern))
+            {
+                MessageBox.Show("Moottorin tilavuus on väärässä muodossa.");
+                return;
+            }
 
             // we dont use Auto class because it's broken and unnecessary
             // Auto auto = new Auto(0, makerID, modelID, colorID, fuelID, price, engineVolume, mileage, date);
@@ -253,6 +253,40 @@ namespace Autokauppa.view
             int fuelID = dbHallinta.getFuelID(selectedFuel);
 
             dbHallinta.UpdateAuto(CurrentID, makerID, modelID, colorID, fuelID, price, engineVolume, mileage, date);
+        }
+
+        private void poistaNappi_Click(object sender, EventArgs e)
+        {
+            int CurrentID = int.Parse(tbId.Text);
+            dbHallinta.DeleteAuto(CurrentID);
+            // call the GetNextLowestByPrice method to get the next car
+            decimal currentPrice = decimal.Parse(tbHinta.Text);
+            int? nextCarID = dbHallinta.GetNextLowestByPrice(currentPrice, CurrentID);
+            if (nextCarID.HasValue)
+            {
+                tbId.Text = nextCarID.ToString();
+
+                Auto auto = dbHallinta.GetAutoByID(nextCarID.Value);
+                if (auto != null)
+                {
+                    cbMerkki.Text = dbHallinta.getAutoMakerNameFromID(auto.AutonMerkkiID);
+                    cbMalli.Text = dbHallinta.getAutoModelNameFromID(auto.AutonMalliID);
+                    cbVari.Text = dbHallinta.getColorNameFromID(auto.VaritID);
+                    cbPolttoaine.Text = dbHallinta.getFuelNameFromID(auto.PolttoaineID);
+                    tbHinta.Text = auto.Hinta.ToString();
+                    tbTilavuus.Text = auto.Moottorin_tilavuus.ToString();
+                    tbMittarilukema.Text = auto.Mittarilukema.ToString();
+                    dtpPaiva.Text = auto.Rekisteri_paivamaara.ToString("yyyy-MM-dd");
+                }
+                else
+                {
+                    MessageBox.Show("Auto with the specified ID not found.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("No higher ID available.");
+            }
         }
     }
 }
