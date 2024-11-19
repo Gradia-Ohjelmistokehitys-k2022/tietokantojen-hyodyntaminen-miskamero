@@ -7,7 +7,7 @@
 
 @if (DbContext == null)
 {
-	<p>Not properly injected!!?!??</p>
+    <p>Not properly injected!!?!??</p>
 }
 
 <EditForm Model="newEvent" OnValidSubmit="SaveEvent" FormName="addEventForm" AdditionalAttributes="@(new Dictionary<string, object> { { "FormName", "  " } })">
@@ -51,13 +51,6 @@
     </div>
 
     <button type="submit" class="btn btn-success">Save</button>
-    <pre>
-        Title: @newEvent.Title
-        StartDate: @newEvent.StartDate
-        EndDate: @newEvent.EndDate
-        Location: @newEvent.Location
-        Category: @newEvent.Category
-    </pre>
 </EditForm>
 
 @code {
@@ -78,7 +71,9 @@
             // Save the new event with values from the form
             DbContext.Events.Add(newEvent);
             await DbContext.SaveChangesAsync();
-            Navigation.NavigateTo("eventlist");
+			string Url = Navigation.ToAbsoluteUri("eventlist").ToString();
+            Console.WriteLine(Url);
+            await InvokeAsync(() => Navigation.NavigateTo(Url, true));
         }
         catch (Exception ex)
 		{
