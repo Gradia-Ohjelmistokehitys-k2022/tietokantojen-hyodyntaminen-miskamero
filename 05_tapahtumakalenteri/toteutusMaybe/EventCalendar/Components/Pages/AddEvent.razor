@@ -10,7 +10,7 @@
 	<p>Not properly injected!!?!??</p>
 }
 
-<EditForm Model="@newEvent" OnValidSubmit="SaveEvent" FormName="addEventForm">
+<EditForm Model="newEvent" OnValidSubmit="SaveEvent" FormName="addEventForm" AdditionalAttributes="@(new Dictionary<string, object> { { "FormName", "  " } })">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
@@ -61,7 +61,16 @@
 </EditForm>
 
 @code {
-    private Event newEvent = new();
+    [SupplyParameterFromForm]
+    private Event newEvent { get; set; }
+
+    protected override void OnInitialized()
+    {
+
+        if(newEvent == null)
+            newEvent = new Event();
+    }
+
     private async Task SaveEvent()
     {
         try

@@ -1,5 +1,8 @@
 ﻿@page "/eventlist"
 @inject EventDbContext DbContext
+@inject IJSRuntime JSRuntime
+@inject NavigationManager _navigationManager
+@rendermode InteractiveServer
 @using EventCalendar.Data
 @using Microsoft.EntityFrameworkCore
 
@@ -8,6 +11,7 @@
 <table class="table">
     <thead>
         <tr>
+            <th>ID</th>
             <th>Title</th>
             <th>Start Date</th>
             <th>End Date</th>
@@ -20,14 +24,17 @@
         @foreach (var eventItem in events)
         {
             <tr>
+                <td>@eventItem.Id</td>
                 <td>@eventItem.Title</td>
                 <td>@eventItem.StartDate.ToShortDateString()</td>
                 <td>@eventItem.EndDate.ToShortDateString()</td>
                 <td>@eventItem.Location</td>
                 <td>@eventItem.Category</td>
                 <td>
-                    <button class="btn btn-primary">Edit</button>
-                    <button class="btn btn-danger">Delete</button>
+                    <NavLink href="editpage">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Edit
+                    </NavLink>
+                    <button class="btn btn-danger" @onclick="async () => await DeleteEvent(eventItem.Id)">Delete</button>
                 </td>
             </tr>
         }
@@ -40,5 +47,17 @@
     protected override async Task OnInitializedAsync()
     {
         events = await DbContext.Events.ToListAsync();
+    }
+
+    private async Task DeleteEvent(int id)
+    {
+        var eventItem = await DbContext.Events.FindAsync(id);
+        if (eventItem != null)
+        {
+            DbContext.Events.Remove(eventItem);
+            await DbContext.SaveChangesAsync();
+            events = await DbContext.Events.ToListAsync(); // Refresh the list of events
+            StateHasChanged(); // Trigger a UI refresh if needed
+        }
     }
 }
