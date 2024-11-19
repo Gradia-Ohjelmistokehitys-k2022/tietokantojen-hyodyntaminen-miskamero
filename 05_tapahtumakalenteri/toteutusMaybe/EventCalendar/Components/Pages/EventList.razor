@@ -17,6 +17,7 @@
             <th>End Date</th>
             <th>Location</th>
             <th>Category</th>
+            <th>Description</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -30,8 +31,9 @@
                 <td>@eventItem.EndDate.ToShortDateString()</td>
                 <td>@eventItem.Location</td>
                 <td>@eventItem.Category</td>
+                <td>@eventItem.Description</td>
                 <td>
-                    <NavLink href="editpage">
+                    <NavLink class="btn btn-primary" href="@($"editpage/{eventItem.Id}")">
                         <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Edit
                     </NavLink>
                     <button class="btn btn-danger" @onclick="async () => await DeleteEvent(eventItem.Id)">Delete</button>
