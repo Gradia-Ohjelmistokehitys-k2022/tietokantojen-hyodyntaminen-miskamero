@@ -5,8 +5,24 @@
 @rendermode InteractiveServer
 @using EventCalendar.Data
 @using Microsoft.EntityFrameworkCore
+@using System.Globalization
 
 <h3>Event List</h3>
+
+@* view calendar by month. filter by category/location *@
+@* view by month *@
+@*select month*@
+<select class="form-select" @onchange="async (e) => await FilterByMonth(e)">
+	<option value="">Filter by Month</option>
+	@foreach (var month in Enumerable.Range(1, 12))
+	{
+		<option value="@month">@GetMonthName(month)</option>
+	}
+</select>
+
+@*filter by category*@
+<input size="$0" class="form-control" placeholder="Filter by Category" @oninput="async (e) => await FilterByCategory(e)" />
+
 
 <table class="table">
     <thead>
@@ -51,6 +67,39 @@
         events = await DbContext.Events.ToListAsync();
     }
 
+    private async Task FilterByMonth(ChangeEventArgs e)
+    {
+        var selectedMonth = e.Value?.ToString();
+        if (string.IsNullOrEmpty(selectedMonth))
+        {
+            events = await DbContext.Events.ToListAsync();
+        }
+        else
+        {
+            var month = int.Parse(selectedMonth);
+            events = await DbContext.Events
+                .Where(ev => ev.StartDate.Month == month || ev.EndDate.Month == month)
+                .ToListAsync();
+        }
+        StateHasChanged(); // Trigger a UI refresh if needed
+    }
+
+	private async Task FilterByCategory(ChangeEventArgs e)
+	{
+		var category = e.Value?.ToString();
+		if (string.IsNullOrEmpty(category))
+		{
+			events = await DbContext.Events.ToListAsync();
+		}
+		else
+		{
+			events = await DbContext.Events
+				.Where(ev => ev.Category.Contains(category))
+				.ToListAsync();
+		}
+		StateHasChanged(); // Trigger a UI refresh if needed
+	}
+
     private async Task DeleteEvent(int id)
     {
         var eventItem = await DbContext.Events.FindAsync(id);
@@ -61,5 +110,10 @@
             events = await DbContext.Events.ToListAsync(); // Refresh the list of events
             StateHasChanged(); // Trigger a UI refresh if needed
         }
+    }
+
+    private string GetMonthName(int month)
+    {
+        return DateTimeFormatInfo.CurrentInfo.GetMonthName(month);
     }
 }

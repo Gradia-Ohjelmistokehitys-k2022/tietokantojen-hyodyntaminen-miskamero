@@ -71,9 +71,8 @@
             // Save the new event with values from the form
             DbContext.Events.Add(newEvent);
             await DbContext.SaveChangesAsync();
-			string Url = Navigation.ToAbsoluteUri("eventlist").ToString();
-            Console.WriteLine(Url);
-            await InvokeAsync(() => Navigation.NavigateTo(Url, true));
+            //empty the fields
+			newEvent = new Event();
         }
         catch (Exception ex)
 		{
