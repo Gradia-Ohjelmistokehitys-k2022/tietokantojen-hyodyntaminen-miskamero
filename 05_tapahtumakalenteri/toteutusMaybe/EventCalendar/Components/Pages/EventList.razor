@@ -1,30 +1,69 @@
 ﻿@page "/eventlist"
 @inject EventDbContext DbContext
-@inject IJSRuntime JSRuntime
-@inject NavigationManager _navigationManager
 @rendermode InteractiveServer
 @using EventCalendar.Data
 @using Microsoft.EntityFrameworkCore
 @using System.Globalization
 
+
+<style>
+    body {
+        background-color: black;
+        color: white;
+    }
+    .EventListTable td {
+        text-align: center;
+        vertical-align: middle;
+        color: white;
+    }
+
+    th {
+        text-align: center;
+        color: white;
+    }
+
+    input {
+        border: 1px solid #555555 !important;
+        background-color: #222222 !important;
+        color: #e0e0e0 !important;
+    }
+
+    input:focus {
+        border-color: #888888 !important;
+        box-shadow: 0 0 5px rgba(136, 136, 136, 0.9) !important;
+    }
+
+    select {
+        border: 1px solid #555555 !important;
+        background-color: #222222 !important;
+        color: #e0e0e0 !important;
+    }
+
+    select:focus {
+        border-color: #888888 !important;
+        box-shadow: 0 0 5px rgba(136, 136, 136, 0.9) !important;
+    }
+
+    select option:first-child {
+        color: #888888;
+    }
+</style>
+<PageTitle>Klinoff Calendar</PageTitle>
+
 <h3>Event List</h3>
 
-@* view calendar by month. filter by category/location *@
-@* view by month *@
-@*select month*@
 <select class="form-select" @onchange="async (e) => await FilterByMonth(e)">
-    <option value="">Filter by Month</option>
+    <option disabled value="">Filter by Month</option>
+    <option value="">All Months</option>
     @foreach (var month in Enumerable.Range(1, 12))
     {
         <option value="@month">@GetMonthName(month)</option>
     }
-</select>
+</select><br/>
 
-@*filter by category*@
-<input size="$0" class="form-control" placeholder="Filter by Category" @oninput="DebounceCategoryFilter" />
+<input size="$0" class="form-control" placeholder="Filter by Category" @oninput="DebounceCategoryFilter" /><br/>
 
-@*filter by location*@
-<input size="$0" class="form-control" placeholder="Filter by Location" @oninput="DebounceLocationFilter" />
+<input size="$0" class="form-control" placeholder="Filter by Location" @oninput="DebounceLocationFilter" /><br/>
 
 @code {
     // workaround for blazor str format BS
@@ -60,7 +99,7 @@
             <th>Actions</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody class="EventListTable">
         @foreach (var eventItem in events)
         {
             <tr>
