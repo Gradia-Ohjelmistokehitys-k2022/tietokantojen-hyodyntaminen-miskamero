@@ -13,15 +13,38 @@
 @* view by month *@
 @*select month*@
 <select class="form-select" @onchange="async (e) => await FilterByMonth(e)">
-	<option value="">Filter by Month</option>
-	@foreach (var month in Enumerable.Range(1, 12))
-	{
-		<option value="@month">@GetMonthName(month)</option>
-	}
+    <option value="">Filter by Month</option>
+    @foreach (var month in Enumerable.Range(1, 12))
+    {
+        <option value="@month">@GetMonthName(month)</option>
+    }
 </select>
 
 @*filter by category*@
-<input size="$0" class="form-control" placeholder="Filter by Category" @oninput="async (e) => await FilterByCategory(e)" />
+<input size="$0" class="form-control" placeholder="Filter by Category" @oninput="DebounceCategoryFilter" />
+
+@*filter by location*@
+<input size="$0" class="form-control" placeholder="Filter by Location" @oninput="DebounceLocationFilter" />
+
+@code {
+    // workaround for blazor str format BS
+	private void DebounceCategoryFilter(ChangeEventArgs e) => DebouncedFilter(e, "category");
+    private void DebounceLocationFilter(ChangeEventArgs e) => DebouncedFilter(e, "location");
+
+    private Timer DebounceTimer;
+
+    private void DebouncedFilter(ChangeEventArgs e, string FP)
+    {
+        DebounceTimer?.Dispose();
+        DebounceTimer = new Timer(async _ =>
+        {
+			if (FP == "category") 
+                await FilterByCategory(e);
+			else if (FP == "location")
+				await FilterByLocation(e);
+        }, null, 200, Timeout.Infinite);
+    }
+}
 
 
 <table class="table">
@@ -84,20 +107,36 @@
         StateHasChanged(); // Trigger a UI refresh if needed
     }
 
-	private async Task FilterByCategory(ChangeEventArgs e)
+    private async Task FilterByCategory(ChangeEventArgs e)
+    {
+        var category = e.Value?.ToString();
+        if (string.IsNullOrEmpty(category))
+        {
+            events = await DbContext.Events.ToListAsync();
+        }
+        else
+        {
+            events = await DbContext.Events
+                .Where(ev => ev.Category.Contains(category))
+                .ToListAsync();
+        }
+        await InvokeAsync(StateHasChanged);
+    }
+
+	private async Task FilterByLocation(ChangeEventArgs e)
 	{
-		var category = e.Value?.ToString();
-		if (string.IsNullOrEmpty(category))
+		var location = e.Value?.ToString();
+		if (string.IsNullOrEmpty(location))
 		{
 			events = await DbContext.Events.ToListAsync();
 		}
 		else
 		{
 			events = await DbContext.Events
-				.Where(ev => ev.Category.Contains(category))
+				.Where(ev => ev.Location.Contains(location))
 				.ToListAsync();
 		}
-		StateHasChanged(); // Trigger a UI refresh if needed
+		await InvokeAsync(StateHasChanged);
 	}
 
     private async Task DeleteEvent(int id)
